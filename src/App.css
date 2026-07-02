@@ -1,4 +1,14 @@
 .App {
-  font-size: x-large;
-  margin-left: 20px;
+	font-size: x-large;
+	margin-left: 20px;
+}
+
+.App input {
+	font-size: large;
+	padding: 0.25rem 0.5rem;
+	border: 1px solid #333;
+}
+
+.App ul {
+	padding-left: 1.25rem;
 }

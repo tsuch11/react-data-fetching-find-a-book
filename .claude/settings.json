@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//tmp/**)",
+      "Bash(netstat -ano)",
+      "Bash(curl -s http://localhost:5174/)",
+      "Bash(curl -s \"http://localhost:5174/src/App.jsx\")",
+      "Bash(node -e \"fetch\\('https://www.googleapis.com/books/v1/volumes?q=javascript'\\).then\\(r=>r.json\\(\\)\\).then\\(d=>console.log\\(d.error?d.error.code:\\('items:'+\\(d.items||[]\\).length\\)\\)\\).catch\\(e=>console.log\\('ERR',e.message\\)\\)\")"
+    ]
+  }
+}
