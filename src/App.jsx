@@ -1,11 +1,12 @@
 // ── App ──────────────────────────────────────────────────────────────
 // Book search page — fetches results from Google Books API as user types
-// แก้ไขได้: input placeholder, styling classes
+// แก้ไขได้: input placeholder, styling classes, DEBOUNCE_DELAY_MS
 
 import { useState, useEffect } from "react";
 import "./App.css";
 
 const GOOGLE_BOOKS_API = "https://www.googleapis.com/books/v1/volumes";
+const DEBOUNCE_DELAY_MS = 500;
 
 const App = () => {
 	// ── Hooks ────────────────────────────────────────────────────────
@@ -18,26 +19,22 @@ const App = () => {
 			return;
 		}
 
-		let isCancelled = false;
+		const timeoutId = setTimeout(() => {
+			const fetchBooks = async () => {
+				try {
+					const response = await fetch(`${GOOGLE_BOOKS_API}?q=${encodeURIComponent(query)}`);
+					const data = await response.json();
 
-		const fetchBooks = async () => {
-			try {
-				const response = await fetch(`${GOOGLE_BOOKS_API}?q=${encodeURIComponent(query)}`);
-				const data = await response.json();
-
-				if (!isCancelled) {
 					setBooks(data.items || []);
+				} catch (error) {
+					console.error("fetchBooks failed:", error);
 				}
-			} catch (error) {
-				console.error("fetchBooks failed:", error);
-			}
-		};
+			};
 
-		fetchBooks();
+			fetchBooks();
+		}, DEBOUNCE_DELAY_MS);
 
-		return () => {
-			isCancelled = true;
-		};
+		return () => clearTimeout(timeoutId);
 	}, [query]);
 
 	// ── Handlers ─────────────────────────────────────────────────────
